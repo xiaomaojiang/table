@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            color: #1479f5;
+        }
+        .grade{
+            width: 800px;
+            height: 180px;
+            border: 2px solid #eef3f4;
+            margin: 30px auto;
+        }
+        /*头部样式*/
+        .header{
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
+        }
+        .header h3{
+            float: left;
+            line-height: 60px;
+            font-weight: normal;
+        }
+        #box>div:nth-child(1)  .header:before{
+            display: inline-block;
+            content: '';
+            float: left;
+            width: 3px;
+            height: 20px;
+            margin-top: 20px;
+            margin-right: 10px;
+            background-color: red;
+        }
+        #box>div:nth-child(2)  .header:before{
+            display: inline-block;
+            content: '';
+            float: left;
+            width: 3px;
+            height: 20px;
+            margin-top: 20px;
+            margin-right: 10px;
+            background-color: blue;
+        }
+        .header button{
+            float: right;
+            width: 60px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 15px;
+            margin-right: 10px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            background: #fff;
+            border: 1px solid #1479f5;
+            outline:none;
+        }
+        button:active{
+            background-color: #1479f5;
+            color: #fff;
+        }
+
+        /*主体样式*/
+        .content{
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            font-size: 12px;
+        }
+        .content table{
+            border-spacing: 0;
+        }
+        .content table tr td{
+            width: 100px;
+            height: 30px;
+            box-sizing: border-box;
+            border-top: 1px solid #eef3f4;
+            border-right: 1px solid #eef3f4;
+            margin: 0;
+        }
+        .content table tr td:nth-child(8n){
+            border-right:none;
+        }
+        .content .con{
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+        }
+        .content .con>div{
+            height: 60px;
+            float: left;
+        }
+        .content .con>div>div>div{
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .content .con>div>div>div:last-child{
+            box-sizing: border-box;
+            padding-top: 6px;
+            padding-left: 18px;
+            overflow: hidden;
+        }
+        .content .con>div>div>div>button{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+            background-color: #167cfb;
+            border: none;
+            outline:none;
+            float: left;
+        }
+        .content .con>div>div>div>button:active{
+            background: blue;
+        }
+        .content .con>div>div>div>span{
+            display: inline-block;
+            height: 20px;
+            width: 24px;
+            text-align: center;
+            line-height: 20px;
+            box-sizing: border-box;
+            border-top: 1px solid #167cfb;
+            border-bottom: 1px solid #167cfb;
+            float: left;
+
+        }
+    </style>
+</head>
+<script src="https://unpkg.com/vue"></script>
+<body>
+<div id="box">
+    <div class="grade" v-for="(value,index) in dataArr">
+    <!--头部-->
+        <div class="header">
+            <h3>{{value.grade}}</h3><button @click="save(index)">保存</button>
+        </div>
+    <!--主体-->
+        <div  class="content">
+            <table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="con">
+                <div v-for="(value,key,idxs) in value.subject" >
+                <subjects :ikey ='key' :ival ='value' :idx='index' :idc='idxs' @onadd="updateadd" @onminus="updateminus"></subjects>
+            </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    //数据
+    var data = [
+        {   grade:'一年级',
+            subject:{'语文':0,'数学':0,'英语':0,'音乐':0,'美术':0,'体育':0,'书法':0,'游戏活动':0,'品德与生活':0,'绘本阅读':0,'班队会':0,'自主课程':0,'科技':0}
+        },
+        {   grade:'二年级',
+            subject:{'语文':0,'数学':0,'英语':0,'音乐':0,'美术':0,'体育':0,'书法':0,'游戏活动':0,'品德与生活':0,'绘本阅读':0,'班队会':0,'自主课程':0,'科技':0}
+        }
+    ];
+
+    //科目组件
+    Vue.component('subjects', {
+        template: '<div>' +
+            '<div> {{mkey}} </div>' +
+            '<div><button @click="add"> + </button><span>{{mval}}</span><button @click="minus"> - </button></div>' +
+        '</div>',
+        props: ['ikey','ival','idx','idc'],
+        data: function () {
+            return {
+                mkey: this.ikey,
+                mval: this.ival,
+                mindex: this.idx,
+                midx: this.idc
+            }
+        },
+        methods:{
+            add: function () {
+                this.mval++;
+                this.$emit('onadd',this.mindex,this.mkey);
+            },
+            minus: function () {
+                if(this.mval != 0){this.mval--;this.$emit('onminus');}
+            }
+        }
+    });
+
+    //实例挂载
+    new Vue({
+        el: '#box',
+        data: {
+            dataArr: data,
+        },
+        methods: {
+            updateadd: function (index,key) {
+                this.dataArr[index].subject[key] ++;
+            },
+            updateminus: function () {
+                this.dataArr[index].subject[key] --;
+            },
+            save: function (index) {
+                var str = JSON.stringify(this.dataArr[index].subject);
+                str = str.slice(1,str.length-1);
+                console.log(str);
+            }
+        }
+        });
+
+</script>
+</body>
+</html>
